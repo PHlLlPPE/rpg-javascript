@@ -24,6 +24,8 @@
         <h2>Votre personnage :</h2>
         <p id="character-name"></p>
         <p id="character-stats"></p>
+        <p id="player-gold">💰 Or : 0</p>
+        <p id="player-xp">⭐ XP : 0</p>
     </div>
 
     <div id="combat-section" style="display: none;">
@@ -35,6 +37,14 @@
         <button onclick="specialAttack()">🔥 Attaque spéciale</button>
         <button onclick="usePotion()">🧪 Utiliser une potion</button>
         <p id="combat-log"></p>
+    </div>
+
+    <div id="shop">
+        <h2>🏪Marché</h2>
+        <p>Achetez des améliorations avec votre or !</p>
+        <button onclick="buyPotion()">🧪 Acheter un potion (10 or)</button>
+        <button onclick="upgradeAttack()">⚔️ Améliorer l'attaque (30 or)</button>
+        <button onclick="upgradeDefense()">🛡️ Améliorer la défense (30 or)</button>
     </div>
 
     <script src="script.js"></script>

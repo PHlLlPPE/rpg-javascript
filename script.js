@@ -13,6 +13,9 @@ const potionHeal = 30; // Valeur de soin
 let playerMana = 50;
 const specialCost = 20;
 
+let playerGold = 0; // Or du joueur
+let playerXP = 0; // Expérience du joueur
+
 // Fonction pour choisir un personnage
 function chooseCharacter(character) {
     playerCharacter = { ...characters[character] }; // Copie pour éviter la modification de l'original
@@ -56,22 +59,33 @@ function playerAttack() {
 
     // Chance de coup critique (20% de chance)
     let isCritical = Math.random() < 0.2;
-    let damage = Math.floor(Math.random() * playerCharacter.attaque) +1;
+    let damage = Math.floor(Math.random() * playerCharacter.attaque) + 1;
 
     if (isCritical) {
         damage = Math.floor(damage * (1.5 + Math.random() * 0.5)); // 1.5x à 2x
-        logCombat("⚡ Coup critique! Dégâts doublés !")
+        logCombat("⚡ Coup critique! Dégâts doublés !");
     }
 
     enemy.vie -= damage;
 
     // Affichage des nouvelles valeurs
     document.getElementById("enemy-hp").innerText = `👾 ${enemy.nom} - PV : ${enemy.vie}`;
-    logCombat(`💥 Vous infligez ${damage} dégâts au ${enemy.nom}!`);
+    logCombat(`💥 Vous infligez ${damage} dégâts au ${enemy.nom} !`);
 
     // Vérification de la victoire 
     if (enemy.vie <= 0) {
-        logCombat("🏆 Victoire ! L'ennemi est vaincu !");
+        let goldEarned = Math.floor(Math.random() * 20) + 10; // Entre 10 et 30 or
+        let xpEarned = Math.floor(Math.random() * 15) + 5; // Entre 5 et 20 XP
+
+        playerGold += goldEarned;
+        playerXP += xpEarned;
+
+        logCombat(`🏆 Victoire ! Vous gagnez ${goldEarned} or et ${xpEarned} XP !`);
+
+        // Mise à jour de l'affichage de l'or et de l'XP
+        document.getElementById("player-gold").innerText = `💰 Or : ${playerGold}`;
+        document.getElementById("player-xp").innerText = `⭐ XP : ${playerXP}`;
+
         return;
     }
 
@@ -102,7 +116,6 @@ function logCombat(message) {
     log.scrollTop = log.scrollHeight;
 }
 
-
 // Fonction potion de heal 
 function usePotion() {
     if (potions > 0) {
@@ -110,7 +123,7 @@ function usePotion() {
         potions--;
 
         document.getElementById("player-hp").innerText = `👤 Joueur - PV : ${playerCharacter.vie}`;
-        logCombat(`🧪 Vous utilisez une portion et récupérez ${potionHeal} PV ! (Potions restantes : ${potions})`);
+        logCombat(`🧪 Vous utilisez une potion et récupérez ${potionHeal} PV ! (Potions restantes : ${potions})`);
     } else {
         logCombat("❌ Plus de potions disponibles !");
     }
@@ -133,12 +146,48 @@ function specialAttack() {
 
     logCombat(`🔥 Attaque spéciale ! Vous infligez ${damage} dégâts au ${enemy.nom} !`);
     
-
     if (enemy.vie <= 0) {
         logCombat("🏆 Victoire ! L'ennemi est vaincu !");
-    return;
+        return;
     }
 
+    setTimeout(enemyAttack, 1000);
+}
 
-setTimeout(enemyAttack, 1000);
+// Fonctions d'achats 
+function buyPotion() {
+    if (playerGold >= 10) {
+        playerGold -= 10;
+        potions++;
+        logCombat("🧪 Vous avez acheté une potion !");
+    } else {
+        logCombat("❌ Pas assez d'or !");
+    }
+    updateShopDisplay();
+}
+
+function upgradeAttack() {
+    if (playerGold >= 30) {
+        playerGold -= 30;
+        playerCharacter.attaque += 2;
+        logCombat("⚔️ Votre attaque a été améliorée !");
+    } else {
+        logCombat("❌ Pas assez d'or !");
+    }
+    updateShopDisplay();
+}
+
+function upgradeDefense() {
+    if (playerGold >= 30) {
+        playerGold -= 30;
+        playerCharacter.defense += 2;
+        logCombat("🛡️ Votre défense a été améliorée !");
+    } else {
+        logCombat("❌ Pas assez d'or !");
+    }
+    updateShopDisplay();
+}
+
+function updateShopDisplay() {
+    document.getElementById("player-gold").innerText = `💰 Or : ${playerGold}`;
 }

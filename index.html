@@ -18,10 +18,20 @@
         <button onclick="chooseCharacter('Voleur')">🗡️ Voleur</button>
     </div>
 
+    <button onclick="startCombat()">⚔️ Lancer un combat</button>
+
     <div id="character-info" style="display: none;">
         <h2>Votre personnage :</h2>
         <p id="character-name"></p>
         <p id="character-stats"></p>
+    </div>
+
+    <div id="combat-section" style="display: none;">
+        <h2>Combat en cours !</h2>
+        <p id="player-hp"></p>
+        <p id="enemy-hp"></p>
+        <button onclick="playerAttack()">⚔️ Attaquer</button>
+        <p id="combat-log"></p>
     </div>
 
     <script src="script.js"></script>

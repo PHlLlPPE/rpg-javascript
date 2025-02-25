@@ -19,6 +19,7 @@ let playerXP = 0; // Expérience du joueur
 // Fonction pour choisir un personnage
 function chooseCharacter(character) {
     playerCharacter = { ...characters[character] }; // Copie pour éviter la modification de l'original
+    playerCharacter.classe =character; // Ajout de la classe choisie
 
     // Mise à jour de l'affichage 
     document.getElementById("character-name").innerText = `Classe : ${character}`;
@@ -26,6 +27,8 @@ function chooseCharacter(character) {
 
     // Afficher les stats du personnage choisi
     document.getElementById("character-info").style.display = "block";
+
+    updateBars();
 }
 
 // Création d'un ennemi aléatoire
@@ -86,8 +89,10 @@ function playerAttack() {
         document.getElementById("player-gold").innerText = `💰 Or : ${playerGold}`;
         document.getElementById("player-xp").innerText = `⭐ XP : ${playerXP}`;
 
+        updateBars();
         return;
     }
+
 
     // Attaque de l'ennemi (si toujours en vie)
     setTimeout(enemyAttack, 1000);
@@ -102,6 +107,8 @@ function enemyAttack() {
 
     document.getElementById("player-hp").innerText = `👤 Joueur - PV : ${playerCharacter.vie}`;
     logCombat(`🔥 Le ${enemy.nom} vous inflige ${damage} dégâts !`);
+
+    updateBars();
 
     // Vérification de la défaite
     if (playerCharacter.vie <= 0) {
@@ -124,6 +131,8 @@ function usePotion() {
 
         document.getElementById("player-hp").innerText = `👤 Joueur - PV : ${playerCharacter.vie}`;
         logCombat(`🧪 Vous utilisez une potion et récupérez ${potionHeal} PV ! (Potions restantes : ${potions})`);
+
+        updateBars()
     } else {
         logCombat("❌ Plus de potions disponibles !");
     }
@@ -145,6 +154,8 @@ function specialAttack() {
     document.getElementById("enemy-hp").innerText = `👾 ${enemy.nom} - PV : ${enemy.vie}`;
 
     logCombat(`🔥 Attaque spéciale ! Vous infligez ${damage} dégâts au ${enemy.nom} !`);
+
+    updateBars();
     
     if (enemy.vie <= 0) {
         logCombat("🏆 Victoire ! L'ennemi est vaincu !");
@@ -190,4 +201,13 @@ function upgradeDefense() {
 
 function updateShopDisplay() {
     document.getElementById("player-gold").innerText = `💰 Or : ${playerGold}`;
+}
+
+
+// Fonction pour les bars
+function updateBars() {
+    if (!playerCharacter || !playerCharacter.classe) return; // vérification avant mise à jour
+
+    document.getElementById("player-hp-bar").style.width = `${(playerCharacter.vie / characters[playerCharacter.classe].vie) * 100}%`;
+    document.getElementById("player-mana-bar").style.width = `${(playerMana / 50) * 100}%`;
 }

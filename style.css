@@ -1,26 +1,91 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #1e1e1e;
+    font-family: 'Press Start 2P', cursive;
     color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('assets/background3.webp') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(4px);
+    z-index: -1;
+
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
 }
 
 button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 20px;
+    background: linear-gradient(to bottom, #8B4513, #5A2D0C);
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    border: 3px solid #3A1D06;
+    padding: 12px 20px;
     margin: 10px;
     cursor: pointer;
-    font-size: 18px;
-    border-radius: 5px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px black;
+    transition: transform 0.2s, background 0.3s;
 }
 
 button:hover {
-    background-color: #2980b9;
+    background: linear-gradient(to bottom, #A0522D, #70391E);
+    transform: scale(1.05);
 }
 
-#character-info {
-    margin-top: 20px;
-    font-size: 20px;
+#combat-log {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Courier New', monospace;
+    width: 80%;
+    margin: 20px auto;
+    height: 150px;
+    overflow-y: auto;
+    border: 2px solid goldenrod;
+}
+
+.bar-container {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #fff;
+    width: 250px;
+    height: 20px;
+    border-radius: 5px;
+    margin: 10px auto;
+    position: relative;
+}
+
+.bar {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.hp-bar {
+    background: linear-gradient(to right, red, darkred);
+    width: 100%;
+}
+
+.mana-bar {
+    background: linear-gradient(to right, blue, darkblue);
+    width: 100%;
 }

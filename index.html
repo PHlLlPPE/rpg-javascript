@@ -30,8 +30,17 @@
 
     <div id="combat-section" style="display: none;">
         <h2>Combat en cours !</h2>
+        <p id="player-hp">👤 Joueur - PV : 100</p>
+        <div class="bar-container">
+            <div id="player-hp-bar" class="bar hp-bar"></div>
+        </div>
+
         <p id="player-mana">🔵 Mana : 50</p>
-        <p id="player-hp"></p>
+        <div class="bar-container">
+            <div id="player-mana-bar" class="bar mana-bar"></div>
+        </div>
+
+
         <p id="enemy-hp"></p>
         <button onclick="playerAttack()">⚔️ Attaquer</button>
         <button onclick="specialAttack()">🔥 Attaque spéciale</button>

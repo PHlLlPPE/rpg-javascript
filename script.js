@@ -7,6 +7,12 @@ const characters = {
 
 let playerCharacter = null;
 
+let potions = 3; // Nombre de potions disponibles
+const potionHeal = 30; // Valeur de soin
+
+let playerMana = 50;
+const specialCost = 20;
+
 // Fonction pour choisir un personnage
 function chooseCharacter(character) {
     playerCharacter = { ...characters[character] }; // Copie pour éviter la modification de l'original
@@ -48,8 +54,15 @@ function playerAttack() {
         return;
     }
 
-    // Dégâts du joueur 
-    let damage = Math.floor(Math.random() * playerCharacter.attaque) + 1;
+    // Chance de coup critique (20% de chance)
+    let isCritical = Math.random() < 0.2;
+    let damage = Math.floor(Math.random() * playerCharacter.attaque) +1;
+
+    if (isCritical) {
+        damage = Math.floor(damage * (1.5 + Math.random() * 0.5)); // 1.5x à 2x
+        logCombat("⚡ Coup critique! Dégâts doublés !")
+    }
+
     enemy.vie -= damage;
 
     // Affichage des nouvelles valeurs
@@ -87,4 +100,45 @@ function logCombat(message) {
     let log = document.getElementById("combat-log");
     log.innerHTML += `<p>${message}</p>`;
     log.scrollTop = log.scrollHeight;
+}
+
+
+// Fonction potion de heal 
+function usePotion() {
+    if (potions > 0) {
+        playerCharacter.vie += potionHeal;
+        potions--;
+
+        document.getElementById("player-hp").innerText = `👤 Joueur - PV : ${playerCharacter.vie}`;
+        logCombat(`🧪 Vous utilisez une portion et récupérez ${potionHeal} PV ! (Potions restantes : ${potions})`);
+    } else {
+        logCombat("❌ Plus de potions disponibles !");
+    }
+}
+
+// Fonction pour l'attaque spéciale
+function specialAttack() {
+    if (playerMana < specialCost) {
+        logCombat("❌ Pas assez de mana !");
+        return;
+    }
+
+    playerMana -= specialCost;
+
+    let damage = Math.floor(playerCharacter.attaque * 1.8 + Math.random() * 5);
+    enemy.vie -= damage;
+
+    document.getElementById("player-mana").innerText = `🔵 Mana : ${playerMana}`;
+    document.getElementById("enemy-hp").innerText = `👾 ${enemy.nom} - PV : ${enemy.vie}`;
+
+    logCombat(`🔥 Attaque spéciale ! Vous infligez ${damage} dégâts au ${enemy.nom} !`);
+    
+
+    if (enemy.vie <= 0) {
+        logCombat("🏆 Victoire ! L'ennemi est vaincu !");
+    return;
+    }
+
+
+setTimeout(enemyAttack, 1000);
 }

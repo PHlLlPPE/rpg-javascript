@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>RPG en JavaScript !</title>
+</head>
+
+<body>
+    <h1>Bienvenue dans mon RPG en JavaScript !</h1>
+
+    <div id="character-selection">
+        <h2>Choisissez votre personnage :</h2>
+        <button onclick="chooseCharacter('Guerrier')">⚔️ Guerrier</button>
+        <button onclick="chooseCharacter('Mage')">🔮 Mage</button>
+        <button onclick="chooseCharacter('Voleur')">🗡️ Voleur</button>
+    </div>
+
+    <div id="character-info" style="display: none;">
+        <h2>Votre personnage :</h2>
+        <p id="character-name"></p>
+        <p id="character-stats"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
